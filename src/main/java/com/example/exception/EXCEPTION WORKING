@@ -1,0 +1,38 @@
+1)))))1. When Exception is Thrown
+      In your RESTController:
+
+      if (studentid >= students.size() || studentid < 0) {
+          throw new StudentNotFoundException("Student ID not found: " + studentid);
+      }
+This throws StudentNotFoundException.
+
+
+2))))))The Exception is Caught
+       The @ExceptionHandler method catches it:
+
+       @ExceptionHandler
+       public ResponseEntity<StudentResponse> handleException(StudentNotFoundException e) {
+           StudentResponse error = new StudentResponse();  // Creating an object
+           error.setStatus(HttpStatus.NOT_FOUND.value());  // Setting values
+           error.setMessage(e.getMessage());
+           error.setTimeStamp(System.currentTimeMillis());
+
+           return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+       }
+
+
+3))))))3. Jackson Converts the Object to JSON
+       ***********Even though you didn't call the getter methods manually, Spring Boot automatically calls them when returning the object as a response.
+       This happens because:************
+
+       Spring Boot uses Jackson (a JSON library) to serialize Java objects into JSON.
+       Jackson internally calls getter methods of the StudentResponse object.
+       The ResponseEntity<StudentResponse> sends this JSON response to the client.
+
+       StudentResponse error = new StudentResponse();
+       error.setStatus(404);
+       error.setMessage("Student not found");
+       error.setTimeStamp(1700000000000);
+       return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+
+CHAT GPT LINK :: https://chatgpt.com/share/67b06329-67ec-800a-9dee-0c11f3af73a5
