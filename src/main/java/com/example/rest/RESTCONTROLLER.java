@@ -31,13 +31,6 @@ public class RESTCONTROLLER {
         return students.get(studentid);// // JACKSON - CONVERT TO JSON OBJECT
     }
 
-    @ExceptionHandler
-    public ResponseEntity<StudentRespaonse> handleException(StudentNotFoundException e){
-        StudentRespaonse error = new StudentRespaonse(); // object
-        error.setStatus(HttpStatus.NOT_FOUND.value());
-        error.setMessage(e.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-        return new ResponseEntity<StudentRespaonse>(error, HttpStatus.NOT_FOUND);
-
-    }
+    //FOR GLOBALLY CREATE CONTROLLER ADVICE NEW CLASS IN SAME PACKAGE
+    //AND PLACE CATCHING ERROR CODE IN THAT
 }
